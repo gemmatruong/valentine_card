@@ -429,7 +429,11 @@ button {
     .photo {
         width: 280px;
         height: 280px;
-        clip-path: path('M112,16 C58.4,16 16,58.4 16,112 C16,184 84,220 140,280 C196,220 264,184 264,112 C264,58.4 221.6,16 168,16 C150.4,16 133.6,21.6 120,32 C106.4,21.6 89.6,16 72,16 Z');
+        border-radius: 15px;
+        box-shadow: 
+            0 20px 60px rgba(255, 105, 180, 0.3),
+            0 0 0 8px white,
+            0 0 0 9px var(--heart-pink);
     }
 
     .heart-overlay {
