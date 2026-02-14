@@ -22,6 +22,7 @@ body {
     justify-content: center;
     overflow: hidden;
     position: relative;
+    padding: 20px;
 }
 
 /* Animated code background */
@@ -81,11 +82,13 @@ body {
     position: relative;
     z-index: 10;
     perspective: 1000px;
+    width: 100%;
+    max-width: 500px;
 }
 
 .letter {
     background: var(--paper-color);
-    width: 500px;
+    width: 100%;
     padding: 50px 40px;
     border-radius: 4px;
     box-shadow: 
@@ -213,6 +216,7 @@ button {
     background: linear-gradient(135deg, #1791f5 0%, #aec8eb 100%);
     padding: 12px 40px;
     color: white;
+    top: 70%;
     position: absolute;
 }
 
@@ -234,6 +238,7 @@ button {
     justify-content: center;
     flex-direction: column;
     animation: fadeIn 0.5s ease-out;
+    padding: 20px;
 }
 
 .reveal.active {
@@ -277,6 +282,7 @@ button {
     animation: photoGlow 2s ease-in-out infinite;
 }
 
+
 .heart-overlay {
     position: absolute;
     top: 40%;
@@ -290,8 +296,12 @@ button {
 }
 
 @keyframes photoGlow {
-    0%, 100% { box-shadow: 0 30px 80px rgba(255, 105, 180, 0.3), 0 0 0 10px white, 0 0 0 11px var(--heart-pink); }
-    50% { box-shadow: 0 30px 100px rgba(255, 105, 180, 0.6), 0 0 0 10px white, 0 0 0 11px var(--accent-blue); }
+    0%, 100% { 
+        filter: drop-shadow(0 30px 80px rgba(255, 105, 180, 0.5)) drop-shadow(0 0 20px rgba(255, 105, 180, 0.3));
+    }
+    50% { 
+        filter: drop-shadow(0 30px 100px rgba(255, 105, 180, 0.8)) drop-shadow(0 0 40px rgba(100, 181, 246, 0.5));
+    }
 }
 
 @keyframes heartPulse {
@@ -312,6 +322,17 @@ button {
         messageAppear 1s ease-out 0.5s both,
         floatText 3s ease-in-out infinite 1.5s;
     text-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+}
+
+@keyframes messageAppear {
+    from { 
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to { 
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 @keyframes floatText {
@@ -343,5 +364,166 @@ button {
     50% { 
         opacity: 1;
         transform: translateY(-50px) scale(1);
+    }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .code-background {
+        font-size: 10px;
+    }
+
+    .letter {
+        padding: 40px 25px;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    h1::before,
+    h1::after {
+        font-size: 18px;
+    }
+
+    h1::before { left: -30px; }
+    h1::after { right: -30px; }
+
+    .message {
+        font-size: 16px;
+        margin-bottom: 25px;
+    }
+
+    .message strong {
+        font-size: 20px !important;
+    }
+
+    .stamp {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+        top: 15px;
+        right: 15px;
+    }
+
+    .code-snippet {
+        font-size: 8px;
+        top: 12px;
+        left: 15px;
+    }
+
+    button {
+        padding: 10px 25px;
+        font-size: 14px;
+    }
+
+    #noBtn {
+        padding: 10px 30px;
+    }
+
+    .photo {
+        width: 280px;
+        height: 280px;
+        clip-path: path('M112,16 C58.4,16 16,58.4 16,112 C16,184 84,220 140,280 C196,220 264,184 264,112 C264,58.4 221.6,16 168,16 C150.4,16 133.6,21.6 120,32 C106.4,21.6 89.6,16 72,16 Z');
+    }
+
+    .heart-overlay {
+        width: 450px;
+        height: 450px;
+    }
+
+    .happy-message {
+        font-size: 32px;
+    }
+
+    .buttons {
+        height: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .letter {
+        padding: 30px 20px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    h1::before,
+    h1::after {
+        font-size: 16px;
+    }
+
+    h1::before { left: -25px; }
+    h1::after { right: -25px; }
+
+    .message {
+        font-size: 14px;
+    }
+
+    .message strong {
+        font-size: 18px !important;
+    }
+
+    button {
+        padding: 8px 20px;
+        font-size: 12px;
+    }
+
+    #noBtn {
+        padding: 8px 25px;
+    }
+
+    .photo {
+        width: 240px;
+        height: 240px;
+        clip-path: path('M96,14 C50.08,14 14,50.08 14,96 C14,157.71 72,188.57 120,240 C168,188.57 226,157.71 226,96 C226,50.08 189.92,14 144,14 C129.03,14 114.51,18.51 103.2,27.43 C91.89,18.51 77.37,14 62.4,14 Z');
+    }
+
+    .heart-overlay {
+        width: 380px;
+        height: 380px;
+    }
+
+    .happy-message {
+        font-size: 24px;
+    }
+
+    .stamp {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+}
+
+/* Landscape mobile fixes */
+@media (max-height: 600px) and (orientation: landscape) {
+    .photo {
+        width: 200px;
+        height: 200px;
+    }
+
+    .happy-message {
+        font-size: 24px;
+    }
+
+    .letter {
+        padding: 25px 20px;
+    }
+
+    h1 {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .message {
+        font-size: 13px;
+        margin-bottom: 20px;
     }
 }

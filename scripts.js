@@ -1,6 +1,8 @@
 // Generate floating hearts
 const heartsContainer = document.querySelector('.hearts-container');
-for (let i = 0; i < 20; i++) {
+const heartCount = window.innerWidth < 768 ? 10 : 20; // Fewer hearts on mobile
+
+for (let i = 0; i < heartCount; i++) {
     const heart = document.createElement('div');
     heart.className = 'heart';
     heart.textContent = '💗';
@@ -14,26 +16,55 @@ for (let i = 0; i < 20; i++) {
 const yesBtn = document.getElementById('yesBtn');
 const noBtn = document.getElementById('noBtn');
 const reveal = document.getElementById('reveal');
+const letterContainer = document.querySelector('.letter');
 
-// Make "No" button run away
-noBtn.addEventListener('mouseenter', () => {
-    const maxX = window.innerWidth - noBtn.offsetWidth - 100;
-    const maxY = window.innerHeight - noBtn.offsetHeight - 100;
+// Function to move "No" button to random position within the letter area
+function moveNoButton() {
+    const buttonWidth = noBtn.offsetWidth;
+    const buttonHeight = noBtn.offsetHeight;
     
-    const randomX = Math.random() * maxX;
-    const randomY = Math.random() * maxY;
+    // Get letter container boundaries
+    const letterRect = letterContainer.getBoundingClientRect();
+    
+    // Create a safe zone within the letter (with padding from edges)
+    const padding = 30;
+    
+    // Calculate safe boundaries within the letter
+    const minX = letterRect.left + padding;
+    const maxX = letterRect.right - buttonWidth - padding;
+    const minY = letterRect.top + padding + 80; // Extra space from top for title
+    const maxY = letterRect.bottom - buttonHeight - padding;
+    
+    // Ensure we have valid ranges
+    const safeMaxX = Math.max(minX, maxX);
+    const safeMaxY = Math.max(minY, maxY);
+    
+    // Generate random position within safe boundaries
+    const randomX = Math.random() * (safeMaxX - minX) + minX;
+    const randomY = Math.random() * (safeMaxY - minY) + minY;
     
     noBtn.style.position = 'fixed';
     noBtn.style.left = randomX + 'px';
     noBtn.style.top = randomY + 'px';
     noBtn.style.transition = 'all 0.3s ease';
+}
+
+// Make "No" button run away on hover (desktop)
+noBtn.addEventListener('mouseenter', moveNoButton);
+
+// For mobile: move button on touch start
+noBtn.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    moveNoButton();
 });
 
 // Handle "Yes" click
 yesBtn.addEventListener('click', () => {
     // Generate sparkles
     const sparklesContainer = document.getElementById('sparkles');
-    for (let i = 0; i < 50; i++) {
+    const sparkleCount = window.innerWidth < 768 ? 30 : 50; // Fewer sparkles on mobile
+    
+    for (let i = 0; i < sparkleCount; i++) {
         const sparkle = document.createElement('div');
         sparkle.className = 'sparkle';
 
@@ -51,8 +82,21 @@ yesBtn.addEventListener('click', () => {
 // Prevent "No" button from being clicked (extra security!)
 noBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    const randomX = Math.random() * (window.innerWidth - 200);
-    const randomY = Math.random() * (window.innerHeight - 200);
-    noBtn.style.left = randomX + 'px';
-    noBtn.style.top = randomY + 'px';
+    moveNoButton();
+});
+
+// Handle window resize - reposition button if it goes out of bounds
+window.addEventListener('resize', () => {
+    if (noBtn.style.position === 'fixed') {
+        const buttonWidth = noBtn.offsetWidth;
+        const buttonHeight = noBtn.offsetHeight;
+        const currentLeft = parseInt(noBtn.style.left);
+        const currentTop = parseInt(noBtn.style.top);
+        
+        // Check if button is out of bounds
+        if (currentLeft + buttonWidth > window.innerWidth || 
+            currentTop + buttonHeight > window.innerHeight) {
+            moveNoButton();
+        }
+    }
 });
